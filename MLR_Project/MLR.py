@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,9 +8,9 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 st.set_page_config(page_title="📊 Multiple Linear Regression App", layout="wide")
 
-st.title("💼 Multiple Linear Regression App (Any Dataset!)")
+st.title("✨ Multiple Linear Regression App (Any Dataset!)")
 
-# ======= SIDEBAR INPUT =======
+# SIDEBAR INPUT 
 st.sidebar.header("🚀 User Options")
 
 # Upload CSV
@@ -27,7 +26,7 @@ if uploaded_file is not None:
     st.write(df.head())
     st.write(f"**Dataset Shape:** {df.shape[0]} rows, {df.shape[1]} columns")
 
-    # ======= FEATURE SELECTION =======
+    # FEATURE SELECTION 
     st.sidebar.subheader("Select Features and Target")
     all_columns = df.columns.tolist()
 
@@ -41,16 +40,16 @@ if uploaded_file is not None:
         X = df[feature_columns]
         y = df[target_column]
 
-        # ======= TRAIN-TEST SPLIT =======
+        # TRAIN-TEST SPLIT
         test_size = st.sidebar.slider("Test Set Size (%)", 10, 50, 20)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size/100, random_state=42)
 
-        # ======= MODEL TRAINING =======
+        # MODEL TRAINING
         model = LinearRegression()
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
 
-        # ======= MODEL EVALUATION =======
+        # MODEL EVALUATION 
         mse = mean_squared_error(y_test, y_pred)
         rmse = mse ** 0.5
         r2 = r2_score(y_test, y_pred)
@@ -60,7 +59,7 @@ if uploaded_file is not None:
         st.write(f"**Root Mean Squared Error (RMSE):** {rmse:,.2f}")
         st.write(f"**R² Score:** {r2:.2f}")
 
-        # ======= USER INPUT PREDICTION =======
+        # USER INPUT PREDICTION
         st.sidebar.subheader("Predict New Data")
         user_input = {}
         for col in feature_columns:
@@ -73,7 +72,7 @@ if uploaded_file is not None:
         prediction = model.predict(input_df)
         st.sidebar.success(f"Predicted {target_column}: {prediction[0]:,.2f}")
 
-        # ======= VISUALIZATIONS =======
+        # VISUALIZATIONS
         st.write("### 📉 Visualizations")
         fig_size = (5, 4)
 
@@ -91,4 +90,5 @@ if uploaded_file is not None:
 
 else:
     st.warning("⚠ Please upload a CSV file to proceed.")
+
 
